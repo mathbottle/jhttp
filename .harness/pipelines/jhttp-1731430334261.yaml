@@ -14,11 +14,27 @@ pipeline:
             steps:
               - step:
                   type: Run
-                  name: Echo Welcome Message
+                  name: Build
                   identifier: Echo_Welcome_Message
                   spec:
                     shell: Sh
-                    command: echo "Welcome to Harness CI"
+                    command: mvn clean install -DskipTests
+              - step:
+                  type: Run
+                  name: unit test
+                  identifier: unit_test
+                  spec:
+                    shell: Sh
+                    command: mvn test
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: BuildAndPushDockerRegistry_1
+                  identifier: BuildAndPushDockerRegistry_1
+                  spec:
+                    connectorRef: ruchira_docker
+                    repo: ruchirabajaj/harness-ci
+                    tags:
+                      - <+pipeline.sequenceID>
           platform:
             os: Linux
             arch: Amd64

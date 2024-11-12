@@ -29,6 +29,17 @@ pipeline:
                       spec:
                         paths:
                           - "**/*.xml"
+                  when:
+                    stageStatus: Success
+                    condition: "false"
+              - step:
+                  type: Test
+                  name: Test_1
+                  identifier: Test_1
+                  spec:
+                    shell: Sh
+                    command: mvn tests
+                    intelligenceMode: true
               - step:
                   type: BuildAndPushDockerRegistry
                   name: BuildAndPushDockerRegistry_1

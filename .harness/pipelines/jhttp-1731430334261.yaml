@@ -1,5 +1,5 @@
 pipeline:
-  name: Build jhttp
+  name: Ruchira_Lab1
   identifier: Build_jhttp_1731430359227
   projectIdentifier: Ruchira_Project
   orgIdentifier: CI

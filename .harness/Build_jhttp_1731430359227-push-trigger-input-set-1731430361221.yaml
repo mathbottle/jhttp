@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_jhttp_1731430359227-push-trigger-input-set
+  identifier: Build_jhttp_1731430359227pushtriggerinputset
+  orgIdentifier: CI
+  projectIdentifier: Ruchira_Project
+  pipeline:
+    identifier: Build_jhttp_1731430359227
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>

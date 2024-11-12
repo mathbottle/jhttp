@@ -34,7 +34,7 @@ pipeline:
                     condition: "false"
               - step:
                   type: Test
-                  name: Test_1
+                  name: "Test Intelligence "
                   identifier: Test_1
                   spec:
                     shell: Sh

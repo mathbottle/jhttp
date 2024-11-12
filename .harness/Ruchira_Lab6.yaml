@@ -28,13 +28,13 @@ pipeline:
                       type: JUnit
                       spec:
                         paths:
-                          - '**/*.xml'
+                          - "**/*.xml"
                   when:
                     stageStatus: Success
                     condition: "false"
               - step:
                   type: Test
-                  name: 'Test Intelligence '
+                  name: "Test Intelligence "
                   identifier: Test_1
                   spec:
                     shell: Sh
@@ -48,7 +48,25 @@ pipeline:
                     connectorRef: ruchira_docker
                     repo: ruchirabajaj/harness-ci
                     tags:
-                      - <+pipeline.sequenceID>
+                      - <+pipeline.sequenceId>
+              - step:
+                  type: AquaTrivy
+                  name: AquaTrivy_1
+                  identifier: AquaTrivy_1
+                  spec:
+                    mode: orchestration
+                    config: default
+                    target:
+                      type: container
+                      detection: auto
+                    advanced:
+                      log:
+                        level: info
+                    privileged: true
+                    image:
+                      type: docker_v2
+                      tag: <+pipeline.sequenceId>
+                      name: ruchirabajaj/harness-ci
           platform:
             os: Linux
             arch: Amd64

@@ -1,0 +1,33 @@
+pipeline:
+  name: Build jhttp
+  identifier: Build_jhttp_1731430359227
+  projectIdentifier: Ruchira_Project
+  orgIdentifier: CI
+  stages:
+    - stage:
+        name: Build
+        identifier: Build
+        type: CI
+        spec:
+          cloneCodebase: true
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Echo Welcome Message
+                  identifier: Echo_Welcome_Message
+                  spec:
+                    shell: Sh
+                    command: echo "Welcome to Harness CI"
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: ruchira
+        repoName: jhttp
+        build: <+input>

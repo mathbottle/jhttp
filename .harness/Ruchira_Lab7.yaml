@@ -41,7 +41,7 @@ pipeline:
                         level: info
                     privileged: true
                     image:
-                      type: local_image
+                      type: docker_v2
                       tag: <+pipeline.sequenceId>
                       name: ruchirabajaj/harness-ci
           platform:

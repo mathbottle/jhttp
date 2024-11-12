@@ -38,7 +38,7 @@ pipeline:
                   identifier: Test_1
                   spec:
                     shell: Sh
-                    command: mvn tests
+                    command: mvn test
                     intelligenceMode: true
               - step:
                   type: BuildAndPushDockerRegistry

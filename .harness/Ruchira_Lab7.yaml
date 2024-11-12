@@ -12,43 +12,20 @@ pipeline:
             steps:
               - step:
                   type: Run
-                  name: Build
+                  name: package
                   identifier: Echo_Welcome_Message
                   spec:
                     shell: Sh
                     command: mvn clean install -DskipTests
               - step:
                   type: Run
-                  name: unit test
-                  identifier: unit_test
+                  name: Run_2
+                  identifier: Run_2
                   spec:
                     shell: Sh
-                    command: mvn test
-                    reports:
-                      type: JUnit
-                      spec:
-                        paths:
-                          - '**/*.xml'
-                  when:
-                    stageStatus: Success
-                    condition: "false"
-              - step:
-                  type: Test
-                  name: 'Test Intelligence '
-                  identifier: Test_1
-                  spec:
-                    shell: Sh
-                    command: mvn test
-                    intelligenceMode: true
-              - step:
-                  type: BuildAndPushDockerRegistry
-                  name: BuildAndPushDockerRegistry_1
-                  identifier: BuildAndPushDockerRegistry_1
-                  spec:
-                    connectorRef: ruchira_docker
-                    repo: ruchirabajaj/harness-ci
-                    tags:
-                      - <+pipeline.sequenceId>
+                    command: |-
+                      docker build -t test123cloud:test-<+pipeline.sequenceId> .
+                      docker images
               - step:
                   type: AquaTrivy
                   name: AquaTrivy_1
@@ -64,7 +41,7 @@ pipeline:
                         level: info
                     privileged: true
                     image:
-                      type: docker_v2
+                      type: local_image
                       tag: <+pipeline.sequenceId>
                       name: ruchirabajaj/harness-ci
           platform:

@@ -24,6 +24,11 @@ pipeline:
                   spec:
                     shell: Sh
                     command: mvn test
+                    reports:
+                      type: JUnit
+                      spec:
+                        paths:
+                          - "**/*.xml"
               - step:
                   type: BuildAndPushDockerRegistry
                   name: BuildAndPushDockerRegistry_1

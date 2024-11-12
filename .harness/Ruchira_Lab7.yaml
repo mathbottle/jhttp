@@ -1,0 +1,84 @@
+pipeline:
+  projectIdentifier: Ruchira_Project
+  orgIdentifier: CI
+  stages:
+    - stage:
+        name: Build
+        identifier: Build
+        type: CI
+        spec:
+          cloneCodebase: true
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Build
+                  identifier: Echo_Welcome_Message
+                  spec:
+                    shell: Sh
+                    command: mvn clean install -DskipTests
+              - step:
+                  type: Run
+                  name: unit test
+                  identifier: unit_test
+                  spec:
+                    shell: Sh
+                    command: mvn test
+                    reports:
+                      type: JUnit
+                      spec:
+                        paths:
+                          - '**/*.xml'
+                  when:
+                    stageStatus: Success
+                    condition: "false"
+              - step:
+                  type: Test
+                  name: 'Test Intelligence '
+                  identifier: Test_1
+                  spec:
+                    shell: Sh
+                    command: mvn test
+                    intelligenceMode: true
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: BuildAndPushDockerRegistry_1
+                  identifier: BuildAndPushDockerRegistry_1
+                  spec:
+                    connectorRef: ruchira_docker
+                    repo: ruchirabajaj/harness-ci
+                    tags:
+                      - <+pipeline.sequenceId>
+              - step:
+                  type: AquaTrivy
+                  name: AquaTrivy_1
+                  identifier: AquaTrivy_1
+                  spec:
+                    mode: orchestration
+                    config: default
+                    target:
+                      type: container
+                      detection: auto
+                    advanced:
+                      log:
+                        level: info
+                    privileged: true
+                    image:
+                      type: docker_v2
+                      tag: <+pipeline.sequenceId>
+                      name: ruchirabajaj/harness-ci
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: ruchira
+        repoName: jhttp
+        build: <+input>
+  tags: {}
+  identifier: Ruchira_Lab7
+  name: Ruchira_Lab7
